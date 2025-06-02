@@ -19,7 +19,7 @@ import com.hedlundkaua.course.entities.User;
 public class UserResource {
 	
 	//metodo end-point para acessar os usuarios
-	@GetMapping //para indicar que o metodo responde a requisição do tipo GET do HTTP colocamos esse anotation.
+	@GetMapping //para indicar que o metodo responde a requisição do tipo GET do HTTP colocamos na anotation
 	public ResponseEntity<User> findAll(){ //ResponseEntity tipo especifico do spring para retornar respostas para requisições web
 		User u = new User(1L, "maria", "maria@gmail.com", "999999", "12345");
 		return ResponseEntity.ok().body(u);// o responseEntitiy.ok rertorna a resposta com sucesso no HTTP e vamos chamar o .body()
