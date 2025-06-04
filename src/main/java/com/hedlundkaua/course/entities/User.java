@@ -1,12 +1,17 @@
 package com.hedlundkaua.course.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,6 +27,15 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	private String password;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "client") //para instruir o JPA mapear a chave estrangeira da classe order (Um para muitos)
+	private List<Order> orders = new ArrayList<>();
+	//isso faz uma associação de mão dupla
+
+	//se tentarmos carregar um objeto um para muitos, o JPA não carrega os objetos do lado do muitos por padrão chamado (lazyLoad)
+	
+	//com o JsonIgnore aqui, quando fazemos umma requisição do pedido pelo Id, ele retorna o id do cliente envolvido
 	
 	public User() {
 	}
@@ -74,6 +88,10 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public List<Order> getOrders() {
+		return orders;
+	}
 
 	@Override
 	public int hashCode() {
@@ -91,6 +109,8 @@ public class User implements Serializable {
 		User other = (User) obj;
 		return Objects.equals(id, other.id);
 	}
+
+	
 	
 		
 	
