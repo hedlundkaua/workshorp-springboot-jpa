@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.hedlundkaua.course.entities.Category;
 import com.hedlundkaua.course.entities.Order;
+import com.hedlundkaua.course.entities.Product;
 import com.hedlundkaua.course.entities.User;
 import com.hedlundkaua.course.entities.enums.OrderStatus;
 import com.hedlundkaua.course.repositories.CategoryRepository;
 import com.hedlundkaua.course.repositories.OrderRepository;
+import com.hedlundkaua.course.repositories.ProductRepository;
 import com.hedlundkaua.course.repositories.UserRepository;
 
 @Configuration //para falar para o spring que essa classe é uma de config usamos essa anotation
@@ -24,6 +26,9 @@ public class TestConfig implements CommandLineRunner{
 	private UserRepository userRepository;
 
 	@Autowired
+	private ProductRepository productRepository;
+	
+	@Autowired
 	private OrderRepository orderRepository;
 	
 	@Autowired
@@ -31,7 +36,7 @@ public class TestConfig implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
-		
+				
 		Category cat1 = new Category(null, "Electronics"); 
 		Category cat2 = new Category(null, "Books"); 
 		Category cat3 = new Category(null, "Computers");
@@ -45,7 +50,16 @@ public class TestConfig implements CommandLineRunner{
 		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"),OrderStatus.WAITING_PAYMENT, u2); 
 		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"),OrderStatus.WAITING_PAYMENT, u1);
 
+		Product p1 = new Product(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, ""); 
+		Product p2 = new Product(null, "Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0, ""); 
+		Product p3 = new Product(null, "Macbook Pro", "Nam eleifend maximus tortor, at mollis.", 1250.0, ""); 
+		Product p4 = new Product(null, "PC Gamer", "Donec aliquet odio ac rhoncus cursus.", 1200.0, ""); 
+		Product p5 = new Product(null, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, "");
+		
+		
 		userRepository.saveAll(Arrays.asList(u1, u2));
+		
+		productRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
 		
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
 	}
