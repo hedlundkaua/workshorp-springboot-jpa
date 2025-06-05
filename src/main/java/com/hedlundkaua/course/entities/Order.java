@@ -36,7 +36,7 @@ public class Order implements Serializable{
 
 	
 	@ManyToOne //para instruir o JPA para transformar isso em chave estranjeira (muitos para um)
-	@JoinColumn(name = "client_id") //para dar o nome a chave estrangeira no BD
+	@JoinColumn(name = "client_id") //para dar o nome a chave estrangeira no BD/ na tabela de pedidos no BD vamos ter uma chave estrangeira chamada client id que vai ter o id do usuario associado a esse pedido
 	private User client;
 	
 	//quando fazers a chamada de um pedido automaticamente o JPA também carrega o cliente associado a ele.

@@ -9,8 +9,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 
 @Entity
@@ -27,7 +29,14 @@ public class Product implements Serializable{
 	private Double price;
 	private String imgUrl;
 	
-	@Transient
+	
+	//preciso fazer um mapeamento nessas coleççoes na tabela de associações que tem no modelo relacional
+	@ManyToMany
+	@JoinTable(name = "tb_product_category", 
+	joinColumns = @JoinColumn(name = "product_id"), //chave estrangeira do produto
+	inverseJoinColumns = @JoinColumn(name = "category_id")) //o inverseJoinColumns serve para definir a chave estrangeira da  outra entidade
+	
+	
 	private Set<Category> categories = new HashSet<>(); //instanciamos para garantir que a coleção(Set) não comece valendo null
 	//Porque o set é uma interface, temos que usar uma classe correspondente a essa classe
 	
