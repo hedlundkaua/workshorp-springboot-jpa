@@ -9,6 +9,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hedlundkaua.course.entities.enums.OrderStatus;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -50,6 +52,11 @@ public class Order implements Serializable{
 	
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
+	
+	//para pegar da classe payment a anotação OneToOne
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL) // no caso um para um estamos mapeando as duas entidade para ter o mesmo ID
+	//, se o pedido for codigo 5 o pagamento tambem deve ter pagamaneto 5, e no caso de mapear um para um no mesmo id isso é obrigato 
+	private Payment payment;
 	
 	public Order(){
 	}
@@ -96,6 +103,14 @@ public class Order implements Serializable{
 		}
 	}
 	
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
 	public Set<OrderItem> getItems(){
 		return items;
 	}

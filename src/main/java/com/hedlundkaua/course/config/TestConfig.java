@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.hedlundkaua.course.entities.Category;
 import com.hedlundkaua.course.entities.Order;
 import com.hedlundkaua.course.entities.OrderItem;
+import com.hedlundkaua.course.entities.Payment;
 import com.hedlundkaua.course.entities.Product;
 import com.hedlundkaua.course.entities.User;
 import com.hedlundkaua.course.entities.enums.OrderStatus;
@@ -83,7 +84,11 @@ public class TestConfig implements CommandLineRunner{
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 		
-	
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1); //para salvar um objeto dependente em uma relação (1,1)
+		
+		o1.setPayment(pay1); //não chamamos um repository, fazemos uma relação de mao dupla em memoria
+		orderRepository.save(o1);
+		
 	}
 	
 	
