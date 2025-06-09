@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,6 +54,12 @@ public class UserResource {
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri(); // esse motodo faz com que retorne um cabeçalho chamado location contendo um endereço do novo recurso inserido.
 		return ResponseEntity.created(uri).body(obj); //usamos o metodo acima para retornar um status 201 que é mais quando estamos inserindo recursos, ele é especifico do HTTP para quando estamos inserindo um novo recurso.
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id){//@PathVariable para o long id ser reconhecido como uma variavel da URL
+		service.delete(id);
+		return ResponseEntity.noContent().build(); //como é uma resposta sem corpo chamamos o metodo noContet, e para chamamos o codigo HTTP de uma resposta que não tem conteudo é o 204.
 	}
 	
 }
