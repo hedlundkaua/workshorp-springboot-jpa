@@ -25,4 +25,9 @@ public class UserService {
 		return obj.get();
 	}
 	
+	//retorna o usuario salvo
+	public User insert(User obj){
+		return repository.save(obj); //esse save por padrao ja retorna o obj salvo
+	}
+	
 }

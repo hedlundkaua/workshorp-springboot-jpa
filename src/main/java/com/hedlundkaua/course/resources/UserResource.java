@@ -1,13 +1,17 @@
 package com.hedlundkaua.course.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.hedlundkaua.course.entities.User;
 import com.hedlundkaua.course.services.UserService;
@@ -29,6 +33,7 @@ public class UserResource {
 	
 	
 	//metodo end-point para acessar os usuarios
+	//o metodo getMapping retorna todos os usuarios quando chamamos o /users na URL
 	@GetMapping //para indicar que o metodo responde a requisição do tipo GET do HTTP colocamos na anotation
 	public ResponseEntity<List<User>> findAll(){ //a resposta agora vai ser do tipo List User
 		//ResponseEntity tipo especifico do spring para retornar respostas para requisições web
@@ -39,9 +44,15 @@ public class UserResource {
 	
 	@GetMapping(value = "/{id}") //indica que a requisição aceita um id dentro da URL
 	public ResponseEntity<User> findById(@PathVariable Long id){ //para o spring aceitar o id que vem da URL
-		User obj = service.findById(id);
-		
+		User obj = service.findById(id);	
 		return ResponseEntity.ok().body(obj);
+	}
+	
+	@PostMapping
+	public ResponseEntity<User> insert(@RequestBody User obj){//pra dizer que o obj vai chagr no modo JSON la na requisição e o json vai ser deserializado para um obj User usamos a anotation @RequestBody
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri(); // esse motodo faz com que retorne um cabeçalho chamado location contendo um endereço do novo recurso inserido.
+		return ResponseEntity.created(uri).body(obj); //usamos o metodo acima para retornar um status 201 que é mais quando estamos inserindo recursos, ele é especifico do HTTP para quando estamos inserindo um novo recurso.
 	}
 	
 }
