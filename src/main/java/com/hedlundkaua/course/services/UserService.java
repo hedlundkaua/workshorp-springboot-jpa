@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.hedlundkaua.course.entities.User;
 import com.hedlundkaua.course.repositories.UserRepository;
+import com.hedlundkaua.course.services.exceptions.ResourceNotFoundException;
 
 
 @Service //instancia como componente do Spring
@@ -22,7 +23,7 @@ public class UserService {
 	
 	public User findById(Long Id) {
 		Optional<User> obj = repository.findById(Id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(Id));
 	}
 	
 	//retorna o usuario salvo
